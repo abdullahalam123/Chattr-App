@@ -3,12 +3,11 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 
-// import { pusherClient } from "@/app/libs/pusher";
+import { pusherClient } from "@/app/libs/pusher";
 import useConversation from "@/app/hooks/useConversation";
-// import MessageBox from "./MessageBox";
 import { FullMessageType } from "@/app/types";
 import MessageBox from "./MessageBox";
-// import { find } from "lodash";
+import { find } from "lodash";
 
 interface BodyProps {
   initialMessages: FullMessageType[];
@@ -25,19 +24,19 @@ const Body: React.FC<BodyProps> = ({ initialMessages = [] }) => {
   }, [conversationId]);
 
   useEffect(() => {
-    // pusherClient.subscribe(conversationId)
-    // bottomRef?.current?.scrollIntoView();
+    pusherClient.subscribe(conversationId)
+    bottomRef?.current?.scrollIntoView();
 
     const messageHandler = (message: FullMessageType) => {
       axios.post(`/api/conversations/${conversationId}/seen`);
 
-      // setMessages((current) => {
-      //   if (find(current, { id: message.id })) {
-      //     return current;
-      //   }
+      setMessages((current) => {
+        if (find(current, { id: message.id })) {
+          return current;
+        }
 
-      //   return [...current, message]
-      // });
+        return [...current, message]
+      });
       
       bottomRef?.current?.scrollIntoView();
     };
@@ -53,14 +52,14 @@ const Body: React.FC<BodyProps> = ({ initialMessages = [] }) => {
     };
   
 
-    // pusherClient.bind('messages:new', messageHandler)
-    // pusherClient.bind('message:update', updateMessageHandler);
+    pusherClient.bind('messages:new', messageHandler)
+    pusherClient.bind('message:update', updateMessageHandler);
 
-    // return () => {
-    //   pusherClient.unsubscribe(conversationId)
-    //   pusherClient.unbind('messages:new', messageHandler)
-    //   pusherClient.unbind('message:update', updateMessageHandler)
-    // }
+    return () => {
+      pusherClient.unsubscribe(conversationId)
+      pusherClient.unbind('messages:new', messageHandler)
+      pusherClient.unbind('message:update', updateMessageHandler)
+    }
   }, [conversationId]);
 
   return ( 
