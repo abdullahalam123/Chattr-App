@@ -12,8 +12,7 @@ import useActiveList from '@/app/hooks/useActiveList';
 import Avatar from "@/app/components/Avatar";
 import ConfirmModal from "./ConfrimModal";
 import AvatarGroup from "@/app/components/AvatarGroup";
-// import AvatarGroup from '@/app/components/AvatarGroup';
-// import ConfirmModal from './ConfirmModal';
+
 
 interface ProfileDrawerProps {
   isOpen: boolean;
