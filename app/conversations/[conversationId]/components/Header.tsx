@@ -8,6 +8,7 @@ import { useMemo, useState } from "react";
 import { HiChevronLeft } from "react-icons/hi";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
 import ProfileDrawer from "./ProfileDrawer";
+import AvatarGroup from "@/app/components/AvatarGroup";
 
 interface HeaderProps {
   conversation: Conversation & {
@@ -32,9 +33,9 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
 
   return (
     <>
-      <ProfileDrawer 
-        data={conversation} 
-        isOpen={drawerOpen} 
+      <ProfileDrawer
+        data={conversation}
+        isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}
       />
       <div
@@ -67,9 +68,7 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
             <HiChevronLeft size={32} />
           </Link>
           {conversation.isGroup ? (
-            // <AvatarGroup users={conversation.users} />
-
-            <Avatar user={otherUser} />
+            <AvatarGroup users={conversation.users} />
           ) : (
             <Avatar user={otherUser} />
           )}
@@ -96,4 +95,3 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
 };
 
 export default Header;
-
